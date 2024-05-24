@@ -52,69 +52,50 @@ let studentPres = document.getElementById("studentPres");
 let studentAbs = document.getElementById("studentAbs");
 let studentLeave = document.getElementById("studentLeave");
 
-let presCount = 0;
-let absCount = 0;
-let leaveCount = 0;
+let presCount = 0
+let absCount = 0
+let leaveCount = 0
 
-function like(event) {
+function like(event){
+
     if (event.src.endsWith('like.png')) {
-        event.src = 'Assests/like-up.png';
-        if (leaveCount > 0) {
-            leaveCount--;
-            event.parentElement.querySelector('img[alt="On Leave"]').src = 'Assests/letter.png';
-        }
-        if (absCount > 0) {
-            absCount--;
-            event.parentElement.querySelector('img[alt="Absent"]').src = 'Assests/absent.png';
-        }
-        presCount++;
+        event.src = 'Assests/like-up.png'; 
+        event.parentElement.querySelector('img[alt="On Leave"]').src = 'Assests/letter.png';
+        event.parentElement.querySelector('img[alt="Absent"]').src = 'Assests/absent.png';
+        presCount++
     } else {
-        event.src = 'Assests/like.png';
-        presCount--;
-    }
-    studentPres.innerText = presCount;
-    studentAbs.innerText = absCount;
-    studentLeave.innerText = leaveCount;
+        event.src = 'Assests/like.png'; 
+        presCount--
+    }    
+    studentPres.innerText = presCount
+    console.log(presCount)
+    // console.log(event.parentElement.lastElementChild)
 }
 
-function absent(event) {
+function absent(event){
     if (event.src.endsWith('absent.png')) {
-        event.src = 'Assests/absent-up.png';
-        if (leaveCount > 0) {
-            leaveCount--;
-            event.parentElement.querySelector('img[alt="On Leave"]').src = 'Assests/letter.png';
-        }
-        if (presCount > 0) {
-            presCount--;
-            event.parentElement.querySelector('img[alt="Present"]').src = 'Assests/like.png';
-        }
-        absCount++;
+        event.src = 'Assests/absent-up.png'; 
+        event.parentElement.querySelector('img[alt="On Leave"]').src = 'Assests/letter.png';
+        event.parentElement.querySelector('img[alt="Present"]').src = 'Assests/like.png';
+        absCount++
     } else {
-        event.src = 'Assests/absent.png';
-        absCount--;
-    }
-    studentPres.innerText = presCount;
-    studentAbs.innerText = absCount;
-    studentLeave.innerText = leaveCount;
+        event.src = 'Assests/absent.png'; 
+        absCount--
+    }    
+    studentAbs.innerText = absCount
+    console.log(absCount)
 }
-
-function letter(event) {
+function letter(event){
     if (event.src.endsWith('letter.png')) {
-        event.src = 'Assests/letter-up.png';
-        if (presCount > 0) {
-            presCount--;
-            event.parentElement.querySelector('img[alt="Present"]').src = 'Assests/like.png';
-        }
-        if (absCount > 0) {
-            absCount--;
-            event.parentElement.querySelector('img[alt="Absent"]').src = 'Assests/absent.png';
-        }
-        leaveCount++;
+        event.src = 'Assests/letter-up.png'; 
+        // event.parentElement.firstElementChild.src = `Assests/like.png`
+        event.parentElement.querySelector('img[alt="Present"]').src = 'Assests/like.png';
+        event.parentElement.querySelector('img[alt="Absent"]').src = 'Assests/absent.png';
+        leaveCount++
     } else {
-        event.src = 'Assests/letter.png';
-        leaveCount--;
-    }
-    studentPres.innerText = presCount;
-    studentAbs.innerText = absCount;
-    studentLeave.innerText = leaveCount;
+        event.src = 'Assests/letter.png'; 
+        leaveCount--
+    }    
+    studentLeave.innerText = leaveCount
+    console.log(leaveCount)
 }
