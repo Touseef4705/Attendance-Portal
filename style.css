@@ -3,6 +3,7 @@ body {
     background-color: #f4f4f9;
     margin: 0;
     padding: 20px;
+    user-select: none;
 }
 
 .attendenseCount {

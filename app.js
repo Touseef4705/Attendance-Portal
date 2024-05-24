@@ -26,7 +26,7 @@ var userData = [
     { name: 'Ella Baker', fatherName: 'Ryan Baker', age: 16, rollNo: '125', class: '10th Grade' }
 ];
 
-let studentList = document.getElementById("student-List");
+let studentList = document.getElementById("student-List").getElementsByTagName('tbody')[0];
 
 function addData() {
     for (let i = 0; i < userData.length; i++) {
@@ -37,6 +37,7 @@ function addData() {
            <td>${userData[i].fatherName}</td>
            <td>${userData[i].age}</td>
            <td>${userData[i].rollNo}</td>
+           <td>${userData[i].class}</td>
            <td style="padding-top:10px;">
              <img src="Assests/like.png" alt="Present" style="height: 20px; width:20px; cursor: pointer;" onclick="like(this)">
              <img src="Assests/absent.png" alt="Absent" style="height: 20px; width:20px; margin: 0 5px; cursor: pointer;" onclick="absent(this)">
@@ -52,50 +53,74 @@ let studentPres = document.getElementById("studentPres");
 let studentAbs = document.getElementById("studentAbs");
 let studentLeave = document.getElementById("studentLeave");
 
-let presCount = 0
-let absCount = 0
-let leaveCount = 0
+let presCount = 0;
+let absCount = 0;
+let leaveCount = 0;
 
-function like(event){
+function updateCounts(type, increment) {
+    if (type === 'present') {
+        presCount += increment ? 1 : -1;
+        studentPres.innerText = presCount;
+    } else if (type === 'absent') {
+        absCount += increment ? 1 : -1;
+        studentAbs.innerText = absCount;
+    } else if (type === 'leave') {
+        leaveCount += increment ? 1 : -1;
+        studentLeave.innerText = leaveCount;
+    }
+}
 
+function resetButtons(row) {
+    const presentImg = row.querySelector('img[alt="Present"]');
+    const absentImg = row.querySelector('img[alt="Absent"]');
+    const leaveImg = row.querySelector('img[alt="On Leave"]');
+
+    if (presentImg.src.endsWith('like-up.png')) {
+        presentImg.src = 'Assests/like.png';
+        updateCounts('present', false);
+    }
+    if (absentImg.src.endsWith('absent-up.png')) {
+        absentImg.src = 'Assests/absent.png';
+        updateCounts('absent', false);
+    }
+    if (leaveImg.src.endsWith('letter-up.png')) {
+        leaveImg.src = 'Assests/letter.png';
+        updateCounts('leave', false);
+    }
+}
+
+function like(event) {
+    const row = event.parentElement.parentElement;
+    resetButtons(row);
     if (event.src.endsWith('like.png')) {
-        event.src = 'Assests/like-up.png'; 
-        event.parentElement.querySelector('img[alt="On Leave"]').src = 'Assests/letter.png';
-        event.parentElement.querySelector('img[alt="Absent"]').src = 'Assests/absent.png';
-        presCount++
+        event.src = 'Assests/like-up.png';
+        updateCounts('present', true);
     } else {
-        event.src = 'Assests/like.png'; 
-        presCount--
-    }    
-    studentPres.innerText = presCount
-    console.log(presCount)
-    // console.log(event.parentElement.lastElementChild)
+        event.src = 'Assests/like.png';
+        updateCounts('present', false);
+    }
 }
 
-function absent(event){
+function absent(event) {
+    const row = event.parentElement.parentElement;
+    resetButtons(row);
     if (event.src.endsWith('absent.png')) {
-        event.src = 'Assests/absent-up.png'; 
-        event.parentElement.querySelector('img[alt="On Leave"]').src = 'Assests/letter.png';
-        event.parentElement.querySelector('img[alt="Present"]').src = 'Assests/like.png';
-        absCount++
+        event.src = 'Assests/absent-up.png';
+        updateCounts('absent', true);
     } else {
-        event.src = 'Assests/absent.png'; 
-        absCount--
-    }    
-    studentAbs.innerText = absCount
-    console.log(absCount)
+        event.src = 'Assests/absent.png';
+        updateCounts('absent', false);
+    }
 }
-function letter(event){
+
+function letter(event) {
+    const row = event.parentElement.parentElement;
+    resetButtons(row);
     if (event.src.endsWith('letter.png')) {
-        event.src = 'Assests/letter-up.png'; 
-        // event.parentElement.firstElementChild.src = `Assests/like.png`
-        event.parentElement.querySelector('img[alt="Present"]').src = 'Assests/like.png';
-        event.parentElement.querySelector('img[alt="Absent"]').src = 'Assests/absent.png';
-        leaveCount++
+        event.src = 'Assests/letter-up.png';
+        updateCounts('leave', true);
     } else {
-        event.src = 'Assests/letter.png'; 
-        leaveCount--
-    }    
-    studentLeave.innerText = leaveCount
-    console.log(leaveCount)
+        event.src = 'Assests/letter.png';
+        updateCounts('leave', false);
+    }
 }
